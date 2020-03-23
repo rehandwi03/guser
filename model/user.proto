@@ -1,0 +1,165 @@
+syntax = "proto3";
+
+package model;
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+// import "protoc-gen-swagger/options/annotations.proto";
+
+message User {
+    int64 id = 1;
+    string username = 2;
+    string password = 3;
+}
+
+message Karyawan {
+    int64 id = 1;
+    string nama_lengkap = 2;
+    string alamat = 3;
+}
+
+message CreateRequest {
+    User item = 1;
+}
+
+message CreateResponse {
+    int64 status = 1;
+    string message = 2;
+    User user = 3;
+}
+
+message AllUsers {
+    string message = 1;
+    string status = 2;
+    repeated User user = 3;
+}
+message ReadRequest {
+    int64 id = 1;
+}
+
+message ReadResponse {
+    User user = 1;
+    Karyawan karyawan = 2;
+}
+
+message UpdateRequest {
+    int64 id = 1;
+    User user = 2;
+}
+
+message UpdateResponse {
+    string message  =1;
+    string status = 2;
+    User user = 3;
+}
+
+message DeleteRequest {
+    int64 id = 1;
+}
+
+message DeleteResponse {
+    string message = 1;
+    string status = 2;
+}
+
+message CreateKaryawanRequest {
+    Karyawan karyawan = 2;
+}
+
+message CreateKaryawanResponse {
+    Karyawan karyawan = 1;
+}
+
+message AllKaryawans {
+    repeated Karyawan karyawan = 1;
+}
+
+message GetKaryawanRequest {
+    int64 id = 1;
+}
+
+message GetKaryawanResponse {
+    Karyawan karyawan = 1;
+}
+
+message UpdateKaryawanRequest {
+    int64 id = 1;
+    Karyawan karyawan = 2;
+}
+
+message UpdateKaryawanResponse {
+    Karyawan karyawan = 1;
+}
+
+message DeleteKaryawanRequest {
+    int64 id = 1;
+}
+
+message DeleteKaryawanResponse {
+    string message = 1;
+    string status = 2;
+}
+
+service UserService {
+    rpc GetUsers (google.protobuf.Empty) returns (AllUsers){
+        option (google.api.http) = {
+            get: "/users"
+        };
+    }
+    rpc Create (CreateRequest) returns (CreateResponse){
+        option (google.api.http) = {
+            post: "/user",
+            body: "*"
+        };
+    }
+    rpc Read (ReadRequest) returns (ReadResponse){
+        option (google.api.http) = {
+            get: "/user/{id}",
+        };
+    }
+    rpc Update (UpdateRequest) returns (UpdateResponse){
+        option (google.api.http) = {
+            put: "/user/{id}"
+            body: "*"
+
+            additional_bindings {
+                patch: "/user/{id}"
+                body: "*"
+            }
+        };
+    }
+    rpc Delete (DeleteRequest) returns (DeleteResponse){
+        option (google.api.http) = {
+            delete: "/user/{id}"
+        };
+    }
+}
+
+service KaryawanService {
+    rpc GetKaryawans (google.protobuf.Empty) returns (AllKaryawans){
+        option (google.api.http) = {
+            get: "/karyawans"
+        };
+    }
+    rpc CreateKaryawan (CreateKaryawanRequest) returns (CreateKaryawanResponse){
+        option (google.api.http) = {
+            post: "/karyawan"
+            body: "*"
+        };
+    }
+    rpc ReadKaryawan (GetKaryawanRequest) returns (GetKaryawanResponse){
+        option (google.api.http) = {
+            get: "/karyawan/{id}"
+        };
+    }
+    rpc UpdateKaryawan (UpdateKaryawanRequest) returns (UpdateKaryawanResponse){
+        option (google.api.http) = {
+            put: "/karyawan/{id}"
+            body: "*"
+        };
+    }
+    rpc DeleteKaryawan (DeleteKaryawanRequest) returns (DeleteKaryawanResponse){
+        option (google.api.http) = {
+            delete: "/karyawan/{id}"
+        };
+    }
+}
