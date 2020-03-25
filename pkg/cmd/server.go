@@ -19,7 +19,7 @@ const (
 
 func RunServer() error {
 	ctx := context.Background()
-	db, err := sql.Open("mysql", "rehan1:Rehan123!@tcp(34.71.151.117:3306)/grpcuser")
+	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/grpcuser")
 	if err != nil {
 		log.Fatalf("could not connect to db: %v", err)
 	}

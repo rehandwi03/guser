@@ -19,6 +19,7 @@ message Karyawan {
 
 message CreateRequest {
     User item = 1;
+    int64 id = 2;
 }
 
 message CreateResponse {

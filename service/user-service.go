@@ -68,7 +68,7 @@ func (u *UserService) Create(ctx context.Context, req *model.CreateRequest) (*mo
 	defer c.Close()
 
 	// log.Printf("Data: %v", req.Item.Username)
-	res, err := c.ExecContext(ctx, "INSERT INTO user (`username`,`password`) VALUES(?, ?)", req.Item.Username, req.Item.Password)
+	res, err := c.ExecContext(ctx, "INSERT INTO user (`username`,`password`,`karyawan_id`) VALUES(?, ?,?)", req.Item.Username, req.Item.Password, req.Id)
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "failed to insert data user"+err.Error())
 	}
