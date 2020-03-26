@@ -68,7 +68,7 @@ func (u *UserService) Create(ctx context.Context, req *model.CreateRequest) (*mo
 	defer c.Close()
 
 	// log.Printf("Data: %v", req.Item.Username)
-	res, err := c.ExecContext(ctx, "INSERT INTO user (`username`,`password`,`karyawan_id`) VALUES(?, ?,?)", req.Item.Username, req.Item.Password, req.Id)
+	res, err := c.ExecContext(ctx, "INSERT INTO user (`username`,`password`,`karyawan_id`) VALUES(?, ?, ?)", req.Item.Username, req.Item.Password, req.Id)
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "failed to insert data user"+err.Error())
 	}
@@ -108,8 +108,11 @@ func (u *UserService) Read(ctx context.Context, req *model.ReadRequest) (*model.
 	}
 
 	var user model.User
-	if err := rows.Scan(&user.Id, &user.Username, &user.Password); err != nil {
-		return nil, status.Error(codes.Unknown, "Cant fetch data")
+	var karyawan_id = struct {
+		karyawan_id int64
+	}{}
+	if err := rows.Scan(&user.Id, &user.Username, &user.Password, &karyawan_id.karyawan_id); err != nil {
+		return nil, status.Error(codes.Unknown, fmt.Sprintf("Cant fetch data", err))
 	}
 
 	if rows.Next() {
@@ -127,7 +130,7 @@ func (u *UserService) Read(ctx context.Context, req *model.ReadRequest) (*model.
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	request := model.GetKaryawanRequest{
-		Id: req.Id,
+		Id: karyawan_id.karyawan_id,
 	}
 	res, err := k.ReadKaryawan(ctx, &request)
 	if err != nil {
