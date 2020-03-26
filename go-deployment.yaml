@@ -14,8 +14,7 @@ spec:
     spec: # Spec for the container which will run in the Pod
       containers:
         - name: go-user
-          image: 2017330017/user-go:1.2.0
-          imagePullPolicy: IfNotPresent
+          image: 2017330017/go-user:1.x.0
           ports:
             - containerPort: 7777 # Should match the port number that the Go application listens on
             - containerPort: 7778 # Should match the port number that the Go application listens on
