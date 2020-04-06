@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: go-user-lb
+spec:
+  selector:
+    app: go-user
+  type: LoadBalancer
+  ports:
+    - name: go-user-lb
+      port: 7778
+      targetPort: 7778
