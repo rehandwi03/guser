@@ -120,7 +120,7 @@ func (u *UserService) Read(ctx context.Context, req *model.ReadRequest) (*model.
 	}
 
 	// ambil data ke karyawan lewat grpc
-	conn, err := grpc.Dial("karyawan-svc:7776", grpc.WithInsecure())
+	conn, err := grpc.Dial("localhost:7776", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
