@@ -1,5 +1,5 @@
 - hosts: localhost
-  task:
+  tasks:
     - name: Deploy the service
       k8s:
         state: present
